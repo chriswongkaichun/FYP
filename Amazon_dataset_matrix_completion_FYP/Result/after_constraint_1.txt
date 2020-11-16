@@ -1,0 +1,4 @@
+MAE of matrix2: 0.0130
+MSE of matrix2: 0.1526
+MAE of matrix1: 0.0083
+MSE of matrix1: 0.0872
