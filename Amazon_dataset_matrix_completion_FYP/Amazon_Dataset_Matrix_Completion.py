@@ -25,6 +25,7 @@ def getDF(path):
     i += 1
   return pd.DataFrame.from_dict(df, orient='index')
 
+# Select the file and input some information
 def input():
   sg.theme('SandyBeach')   # Add a touch of color
   # All the stuff inside your window.
@@ -107,6 +108,7 @@ def input1():
   window.close()
   return event
 
+# Show the results
 def showResult(matrix,line_rating,tab,matrixName):
   sg.theme('Topanga')
 
@@ -190,6 +192,7 @@ def showResult1():
   window.close()
   return event
 
+# Delete all row and column that have only one or even no non-missing entries
 def deleteRowAndColumn(matrix):
   # Get the no. of entries filled on each column and rows
   nz0 = np.count_nonzero(matrix, axis=0)
@@ -244,7 +247,8 @@ def deleteRowAndColumn(matrix):
       break
 
   return allOne, matrix
-    
+ 
+# Show the error message
 def errorMessage():
   sg.theme('LightGrey3')   # Add a touch of color
   # All the stuff inside your window.
@@ -259,6 +263,7 @@ def errorMessage():
       break
   window.close()
     
+# Separate the matrix into 2
 def separateMatrix(matrix):
   nz = np.count_nonzero(matrix)
   matrix1 = np.zeros((matrix.shape[0],matrix.shape[1]))
@@ -364,12 +369,14 @@ def separateMatrix(matrix):
           break
   return matrix2, matrix1
     
+# Initialize the user and item latent factors
 def initialization(matrix,R):
   temp = np.random.sample((matrix.shape[0],R))
   P = np.copy(temp)
   Q = np.zeros((matrix.shape[1],R))
   return P, Q
     
+# Update the user and item latent factors
 def update(matrix, P, Q, X, Y, R, learning_rate):
   for i, j in zip(X,Y):
     predicted_entry = 0
@@ -383,6 +390,7 @@ def update(matrix, P, Q, X, Y, R, learning_rate):
 
   return P,Q
 
+# Get the error after each iterations
 def getError(matrix, P, Q, X, Y, nz, R):
   cost1 = 0
   cost2 = 0
@@ -396,6 +404,7 @@ def getError(matrix, P, Q, X, Y, nz, R):
   mse = cost2 / nz
   return mae, mse
 
+# Get the error after constraint
 def getErrorAfterConstraint(matrix, predicted, X, Y, nz):
   cost1 = 0
   cost2 = 0
@@ -406,6 +415,7 @@ def getErrorAfterConstraint(matrix, predicted, X, Y, nz):
   mse = cost2 / nz
   return mae, mse
 
+# Get the predictd matrix
 def getPredictedMatrix(matrix, P, Q, R):
   predicted = np.zeros(matrix.shape)
   for i in range(matrix.shape[0]):
@@ -414,6 +424,7 @@ def getPredictedMatrix(matrix, P, Q, R):
         predicted[i,j] += P[i,r] * Q[j,r]
   return predicted
         
+# Do the constraint
 def constraint(predicted):
   for i in range(predicted.shape[0]):
     for j in range(predicted.shape[1]):
